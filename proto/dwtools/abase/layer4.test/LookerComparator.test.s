@@ -24,9 +24,10 @@ if( typeof module !== 'undefined' )
 
   var _ = _global_.wTools;
 
+  _.include( '../l4/LookerComparator.s' );
+
   _.include( 'wTesting' );
   _.include( 'wStringer' );
-  _.include( 'wStringsExtra' );
 
 }
 
@@ -3059,7 +3060,9 @@ function entityDiffLoose( test )
 
   test.case = 'undefined - null'; /* */
 
+  debugger;
   var got = _.entityDiff( undefined, null );
+  debugger;
   var expected =
 `
 - src1 :
@@ -3070,6 +3073,7 @@ function entityDiffLoose( test )
  *
 `
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
+  debugger;
 
   test.case = 'null - undefined'; /* */
 
@@ -3268,6 +3272,6 @@ var Self =
 
 Self = wTestSuite( Self );
 if( typeof module !== 'undefined' && !module.parent )
-_.Tester.test( Self.name );
+/*_.*/wTester.test( Self.name );
 
 })();
