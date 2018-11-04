@@ -24,7 +24,7 @@ if( typeof module !== 'undefined' )
 
   var _ = _global_.wTools;
 
-  _.include( '../l4/LookerComparator.s' );
+  require( '../l4/LookerComparator.s' );
 
   _.include( 'wTesting' );
   _.include( 'wStringer' );
