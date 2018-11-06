@@ -3058,6 +3058,8 @@ function entityContainLoose( test )
 function entityDiffLoose( test )
 {
 
+  // test.identical( got, {} );
+
   test.case = 'undefined - null'; /* */
 
   debugger;
@@ -3073,7 +3075,6 @@ function entityDiffLoose( test )
  *
 `
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
-  debugger;
 
   test.case = 'null - undefined'; /* */
 
