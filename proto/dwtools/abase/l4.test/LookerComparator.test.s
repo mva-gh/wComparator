@@ -3062,9 +3062,7 @@ function entityDiffLoose( test )
 
   test.case = 'undefined - null'; /* */
 
-  debugger;
   var got = _.entityDiff( undefined, null );
-  debugger;
   var expected =
 `
 - src1 :
