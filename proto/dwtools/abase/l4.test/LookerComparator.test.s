@@ -5,29 +5,12 @@
 if( typeof module !== 'undefined' )
 {
 
-  if( typeof _global_ === 'undefined' || !_global_.wBase )
-  {
-    let toolsPath = '../../../dwtools/Base.s';
-    let toolsExternal = 0;
-    try
-    {
-      toolsPath = require.resolve( toolsPath );
-    }
-    catch( err )
-    {
-      toolsExternal = 1;
-      require( 'wTools' );
-    }
-    if( !toolsExternal )
-    require( toolsPath );
-  }
-
-  var _ = _global_.wTools;
-
-  require( '../l4/LookerComparator.s' );
+  let _ = require( '../../Tools.s' );
 
   _.include( 'wTesting' );
   _.include( 'wStringer' );
+
+  require( '../l4/LookerComparator.s' );
 
 }
 
@@ -1979,6 +1962,7 @@ function entityIdenticalCycled( test )
   var b = { x : 1, y : { x : 1, y : null } }
   b.y.y = b;
   var expected = false;
+  debugger;
   var got = _.entityIdentical( a, b );
   test.identical( got, expected );
 
@@ -2048,6 +2032,7 @@ function entityIdenticalCycledWithOptions( test )
   function onUp( e, k, it )
   {
     onUpPaths.push( it.path );
+    debugger;
     return !it.result ? _.dont : it.result;
   }
 
