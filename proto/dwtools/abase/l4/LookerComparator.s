@@ -30,7 +30,7 @@ _.include( 'wSelector' );
 
 _.assert( !!_realGlobal_ );
 _.assert( !!_.look );
-_.assert( !!_.entitySelect );
+_.assert( !!_.select );
 
 // --
 // entity investigator
@@ -602,8 +602,8 @@ function entityDiffExplanation( o )
 
     _.assert( arguments.length === 1 );
 
-    o.srcs[ 0 ] = _.entitySelect( o.srcs[ 0 ], dir );
-    o.srcs[ 1 ] = _.entitySelect( o.srcs[ 1 ], dir );
+    o.srcs[ 0 ] = _.select( o.srcs[ 0 ], dir );
+    o.srcs[ 1 ] = _.select( o.srcs[ 1 ], dir );
 
     if( o.path !== '/' )
     result += 'at ' + o.path + '\n';
