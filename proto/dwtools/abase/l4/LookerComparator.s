@@ -338,15 +338,15 @@ function _entityEqual_pre( routine, args )
 
 //
 
-function _entityEqual_body( o )
+function _entityEqual_body( it )
 {
   _.assert( arguments.length === 1, 'Expects single argument' );
 
-  let it = o.iteration = o.context.iteration = _.look.body( o );
-  // o.iterator = o.context.iterator = it.iterator;
+  it.context.iteration = _.look.body( it );
 
   _.assert( it.iterator !== it );
   _.assert( it.result === _.dont || _.boolIs( it.result ) );
+
   return it.result === _.dont ? false : it.result;
 }
 
