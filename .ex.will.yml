@@ -1,0 +1,49 @@
+
+about :
+
+  name : wComparator
+  description : Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
+  version : 0.3.15
+  enabled : 1
+  interpreters :
+  - nodejs >= 6.0.0
+  - chrome >= 60.0.0
+  - firefox >= 60.0.0
+  keywords :
+  - wTools
+
+execution :
+
+  scripts :
+    test : wtest staging
+    docgen : wdocgen staging
+
+path :
+
+  repository : git+https://github.com/Wandalen/wComparator.git
+  bugs : https://github.com/Wandalen/wComparator/issues
+
+step :
+
+  export.proto :
+    inherit : export
+    export : path::proto
+    tar : 0
+    criterion :
+      debug : 1
+      proto : 1
+
+build :
+
+  proto.export :
+    criterion :
+      default : 1
+      debug : 1
+      raw : 1
+      proto : 1
+      export : 1
+      tar : 1
+    steps :
+      - build::debug.raw
+      - step::export.proto
+
