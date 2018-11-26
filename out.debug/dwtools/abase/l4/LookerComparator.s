@@ -103,8 +103,13 @@ function __entityEqualUp( e, k, it )
 
     if( !it.src2 )
     return clearEnd( false );
-    if( it.src.constructor !== it.src2.constructor )
+
+    if( !_.longIs( it.src2 ) )
     return clearEnd( false );
+
+    // if( it.context.strictTyping )
+    // if( it.src.constructor !== it.src2.constructor )
+    // return clearEnd( false );
 
     if( !it.context.containing )
     {
@@ -171,6 +176,9 @@ function __entityEqualUp( e, k, it )
 
   function clearEnd( result )
   {
+
+    // if( !result )
+    // debugger;
 
     it.result = it.result && result;
     it.looking = false;
@@ -596,12 +604,15 @@ function entityDiffExplanation( o )
   if( o.path )
   {
 
-    let dir = _.strIsolateEndOrNone( o.path, '/' )[ 0 ];
+    // let dir = _.strIsolateEndOrNone( o.path, '/' )[ 0 ];
+    let dir = _.strSplit( o.path, '/' ).slice( 0,-1 ).join( '' );
+    // let dir = o.path;
     if( !dir )
     dir = '/';
 
     _.assert( arguments.length === 1 );
 
+    // debugger;
     o.srcs[ 0 ] = _.select( o.srcs[ 0 ], dir );
     o.srcs[ 1 ] = _.select( o.srcs[ 1 ], dir );
 

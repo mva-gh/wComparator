@@ -5,7 +5,7 @@
 if( typeof module !== 'undefined' )
 {
 
-  let _ = require( '../../Tools.s' );
+  var _ = require( '../../Tools.s' );
 
   _.include( 'wTesting' );
   _.include( 'wStringer' );
@@ -1753,6 +1753,38 @@ function entityContainsSimple( test )
 
 //
 
+function entityEqualArguments( test )
+{
+  var c = this;
+
+  test.case = 'entityIdentical empty arguments';
+  var src1 = [];
+  var src2 = _.argumentsArrayMake([]);
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, false );
+
+  test.case = 'entityIdentical arguments';
+  var src1 = [ 1,2,3 ];
+  var src2 = _.argumentsArrayMake([ 1,2,3 ]);
+  var got = _.entityIdentical( src1, src2 );
+  test.identical( got, false );
+
+  test.case = 'entityEquivalent empty arguments';
+  var src1 = [];
+  var src2 = _.argumentsArrayMake([]);
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, true );
+
+  test.case = 'entityEquivalent arguments';
+  var src1 = [ 1,2,3 ];
+  var src2 = _.argumentsArrayMake([ 1,2,3 ]);
+  var got = _.entityEquivalent( src1, src2 );
+  test.identical( got, true );
+
+}
+
+//
+
 function entityEqualBuffers( test )
 {
   var c = this;
@@ -3236,6 +3268,7 @@ var Self =
     entityIdenticalSimple : entityIdenticalSimple,
     entityContainsSimple : entityContainsSimple,
 
+    entityEqualArguments : entityEqualArguments,
     entityEqualBuffers : entityEqualBuffers,
 
     entityIdenticalCycled : entityIdenticalCycled,
