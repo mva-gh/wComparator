@@ -628,8 +628,8 @@ function entityDiffExplanation( o )
     o.srcs[ 1 ] = _.mapBut( o.srcs[ 1 ], common );
   }
 
-  o.srcs[ 0 ] = _.toStr( o.srcs[ 0 ], { levels : 2 } );
-  o.srcs[ 1 ] = _.toStr( o.srcs[ 1 ], { levels : 2 } );
+  o.srcs[ 0 ] = _.toStr( o.srcs[ 0 ], { levels : 2, keyWrapper : '\'' } );
+  o.srcs[ 1 ] = _.toStr( o.srcs[ 1 ], { levels : 2, keyWrapper : '\'' } );
 
   o.srcs[ 0 ] = _.strIndentation( o.srcs[ 0 ], '  ' );
   o.srcs[ 1 ] = _.strIndentation( o.srcs[ 1 ], '  ' );

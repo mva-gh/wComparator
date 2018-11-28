@@ -3125,9 +3125,7 @@ function entityDiffLoose( test )
 
   test.case = 'strings'; /* */
 
-  debugger;
   var got = _.entityDiff( 'abc', 'abd' );
-  debugger;
   var expected =
 `
 - src1 :
@@ -3158,25 +3156,11 @@ function entityDiffLoose( test )
   var src1 = { a : { a : 1, b : '2' }, b : [ 1,2 ] };
   var src2 = { a : { a : 1, b : '2' } };
   var got = _.entityDiff( src1, src2 );
-//   var expected =
-// `
-// - src1 :
-// {
-//   a : [ Object with 2 elements ],
-//   b : [ Array with 2 elements ]
-// }
-// - src2 :
-// {
-//   a : [ Object with 2 elements ]
-// }
-// - difference :
-// {
-//   a : [ Object with 2 elements ]*`;
   var expected =
   `
   - src1 :
   {
-    b : [ 1, 2 ]
+    'b' : [ 1, 2 ]
   }
 - src2 :
   {}
@@ -3186,7 +3170,7 @@ function entityDiffLoose( test )
 
   /* */
 
-  test.case = 'trivial mixed'; /* */
+  test.case = 'trivial mixed';
 
   var src1 =
   {
@@ -3204,30 +3188,59 @@ function entityDiffLoose( test )
   }
 
   var got = _.entityDiff( src1, src2 );
-//   var expected =
-// `at /f
-// - src1 :
-// {
-//   f : [ routine f ],
-//   a : 'reducing',
-//   b : [ Array with 2 elements ],
-//   c : true
-// }
-// - src2 :
-// {
-//   f : [ routine f ],
-//   a : 'reducing',
-//   b : [ Array with 2 elements ],
-//   c : true
-// }`;
   var expected =
   `
   at /f
   - src1 :
-  { f : [ routine f ] }
+  { 'f' : [ routine f ] }
   - src2 :
-  { f : [ routine f ] }`
+  { 'f' : [ routine f ] }`
   test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* */
+
+  test.case = 'trivial mixed';
+
+  var src1 =
+  {
+    'some//key' : 'some//key',
+    'some/key' : 'some/key',
+    'some..key' : 'some..key',
+    'some.key' : 'some.key',
+  }
+  var src2 =
+  {
+    'some//key' : 'some//key2',
+    'some/key' : 'some/key2',
+    'some..key' : 'some..key2',
+    'some.key' : 'some.key2',
+  }
+
+  var got = _.entityDiff( src1, src2 );
+  var expected =
+  `
+  at /"some//key"
+  - src1 :
+  {
+  'some//key' : 'some//key',
+  'some/key' : 'some/key',
+  'some..key' : 'some..key',
+  'some.key' : 'some.key'
+  }
+  - src2 :
+  {
+  'some//key' : 'some//key2',
+  'some/key' : 'some/key2',
+  'some..key' : 'some..key2',
+  'some.key' : 'some.key2'
+  }
+  - difference :
+  {
+  'some//key' : 'some//key*
+  `
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+  /* - */
 
   if( !Config.debug )
   return;
