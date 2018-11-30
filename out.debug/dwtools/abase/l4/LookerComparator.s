@@ -39,7 +39,7 @@ _.assert( !!_.select );
 function __entityEqualUp( e, k, it )
 {
 
-  _.assert( arguments.length === 3, 'Expects exactly three argument' );
+  _.assert( arguments.length === 3, 'Expects exactly three arguments' );
 
   /* if containing mode then src2 could even don't have such entry */
 
