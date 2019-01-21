@@ -3,7 +3,8 @@
 'use strict';
 
 /**
-  @module Tools/base/Comparator - Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
+ * Collection of routines to compare two complex structures. The module can answer questions: are two structures equivalent? are them identical? what is the difference between each other? Use the module avoid manually work and cherry picking.
+  @module Tools/base/Comparator
 */
 
 /**
