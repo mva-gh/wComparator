@@ -8,7 +8,7 @@
 */
 
 /**
- * @file LookerComparator.s.
+ * @file l6/LookerComparator.s.
  */
 
 if( typeof module !== 'undefined' )
@@ -34,7 +34,7 @@ _.assert( !!_.look );
 _.assert( !!_.select );
 
 // --
-// entity investigator
+// routines
 // --
 
 function __entityEqualUp( e, k, it )
@@ -178,11 +178,8 @@ function __entityEqualUp( e, k, it )
   function clearEnd( result )
   {
 
-    // if( !result )
-    // debugger;
-
     it.result = it.result && result;
-    it.looking = false;
+    it.continue = false;
 
     _.assert( arguments.length === 1 );
 
@@ -196,13 +193,12 @@ function __entityEqualUp( e, k, it )
 
     if( !it.result )
     {
-      it.iterator.looking = false;
-      it.looking = false;
+      it.iterator.continue = false;
+      it.continue = false;
     }
 
     _.assert( arguments.length === 0 );
 
-    return it.looking ? it.looking : _.dont;
   }
 
 }
@@ -214,8 +210,6 @@ function __entityEqualDown( e, k, it )
 
   _.assert( it.ascending === false );
 
-  // __entityEqualCycle( e, k, it );
-
   /* if element is not equal then descend it down */
   if( !it.result )
   if( it.down )
@@ -224,9 +218,11 @@ function __entityEqualDown( e, k, it )
   }
 
   if( it.result === false )
-  return _.dont;
+  {
+    it.iterator.continue = false;
+    it.continue = false;
+  }
 
-  return it.result;
 }
 
 //
@@ -281,12 +277,13 @@ function _entityEqual_pre( routine, args )
 
   let o = args[ 2 ] || Object.create( null );
 
-  if( o.looker && _.prototypeOf( o.looker, o ) )
-  {
-    _.assert( o.src === args[ 0 ] );
-    _.assert( o.src2 === args[ 1 ] );
-    return o;
-  }
+  // if( _.lookerIs( o ) ) // xxx
+  // {
+  //   debugger;
+  //   _.assert( o.src === args[ 0 ] );
+  //   _.assert( o.src2 === args[ 1 ] );
+  //   return o;
+  // }
 
   o = _.routineOptionsPreservingUndefines( routine, args[ 2 ] || Object.create( null ) );
 
@@ -303,24 +300,37 @@ function _entityEqual_pre( routine, args )
   else
   o.onNumbersAreEqual = numbersAreEquivalent;
 
-  return _.look.pre( _.look, [ optionsFor( o ) ] );
+  let it = _.look.pre( _.look, [ optionsFor( o ) ] );
+
+  _.assert( it.iterator.visited2 === null );
+
+  // debugger;
+  it.src2 = o.src1;
+  it.iterator.visited2 = [];
+  // debugger;
+
+  _.assert( it.result === true );
+
+  return it;
 
   /* */
 
-  function numbersAreIdentical( a,b )
+  function numbersAreIdentical( a, b )
   {
-    return Object.is( a,b );
+    return Object.is( a, b );
   }
 
-  function numbersAreIdenticalNotStrictly( a,b )
+  function numbersAreIdenticalNotStrictly( a, b )
   {
-    /* take into account -0 === +0 case */
-    return Object.is( a,b ) || a === b;
+    /*
+    it takes into account -0 === +0 case
+    */
+    return Object.is( a, b ) || a === b;
   }
 
-  function numbersAreEquivalent( a,b )
+  function numbersAreEquivalent( a, b )
   {
-    if( Object.is( a,b ) )
+    if( Object.is( a, b ) )
     return true;
     return Math.abs( a-b ) <= accuracy;
   }
@@ -333,8 +343,8 @@ function _entityEqual_pre( routine, args )
     _.assert( arguments.length === 1 );
 
     let o2 = Object.create( null );
+    o2.Looker = Looker;
     o2.src = o.src2;
-    o2.src2 = o.src1;
     o2.levelLimit = o.levelLimit;
     o2.context = o;
     o2.onUp = _.routinesComposeReturningLast([ __entityEqualUp, o.onUp ]);
@@ -377,7 +387,7 @@ _entityEqual_body.defaults =
 //
 
 /**
- * Deep comparsion of two entities. Uses recursive comparsion for objects,arrays and array-like objects.
+ * Deep comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
  * Returns false if finds difference in two entities, else returns true. By default routine uses it own
  * ( onNumbersAreEqual ) routine to compare numbers.
  *
@@ -416,7 +426,7 @@ let _entityEqual = _.routineFromPreAndBody( _entityEqual_pre, _entityEqual_body 
 //
 
 /**
- * Deep strict comparsion of two entities. Uses recursive comparsion for objects,arrays and array-like objects.
+ * Deep strict comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
  * Returns true if entities are identical.
  *
  * @param {*} src1 - Entity for comparison.
@@ -454,7 +464,7 @@ defaults.strictCycling = 1;
 //
 
 /**
- * Deep soft comparsion of two entities. Uses recursive comparsion for objects,arrays and array-like objects.
+ * Deep soft comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
  * By default uses own( onNumbersAreEqual ) routine to compare numbers using( options.accuracy ). Returns true if two numbers are NaN, strict equal or
  * ( a - b ) <= ( options.accuracy ). For example: '_.entityEquivalent( 1, 1.5, { accuracy : .5 } )' returns true.
  *
@@ -491,7 +501,7 @@ defaults.strictCycling = 0;
 //
 
 /**
- * Deep contain comparsion of two entities. Uses recursive comparsion for objects,arrays and array-like objects.
+ * Deep contain comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
  * Returns true if entity( src1 ) contains keys/values from entity( src2 ) or they are indentical.
  *
  * @param {*} src1 - Entity for comparison.
@@ -538,7 +548,7 @@ defaults.strictCycling = 1;
 //
 
  /**
-  * Deep comparsion of two entities. Uses recursive comparsion for objects,arrays and array-like objects.
+  * Deep comparsion of two entities. Uses recursive comparsion for objects, arrays and array-like objects.
   * Returns string refering to first found difference or false if entities are sames.
   *
   * @param {*} src1 - Entity for comparison.
@@ -605,15 +615,12 @@ function entityDiffExplanation( o )
   if( o.path )
   {
 
-    // let dir = _.strIsolateEndOrNone( o.path, '/' )[ 0 ];
-    let dir = _.strSplit( o.path, '/' ).slice( 0,-1 ).join( '' );
-    // let dir = o.path;
+    let dir = _.strSplit( o.path, '/' ).slice( 0, -1 ).join( '' );
     if( !dir )
     dir = '/';
 
     _.assert( arguments.length === 1 );
 
-    // debugger;
     o.srcs[ 0 ] = _.select( o.srcs[ 0 ], dir );
     o.srcs[ 1 ] = _.select( o.srcs[ 1 ], dir );
 
@@ -664,6 +671,87 @@ defaults.path = null;
 defaults.accuracy = null;
 
 // --
+// looker routines
+// --
+
+function iteratorSelect( key )
+{
+  let it = this;
+
+  _.Looker.Iterator.select.apply( it, arguments );
+
+  _.assert( arguments.length === 1, 'Expects single argument' );
+  _.assert( it.level >= 0 );
+  _.assert( _.objectIs( it.down ) );
+
+  if( it.src2 )
+  it.src2 = it.src2[ it.key ];
+  else
+  it.src2 = undefined;
+
+  return it;
+}
+
+//
+
+function iteratorVisitBegin()
+{
+  let it = this;
+
+  _.Looker.Iterator.visitBegin.apply( it, arguments );
+
+  // debugger;
+
+  if( it.iterator.trackingVisits )
+  {
+    // it.visited.push( it.src );
+    it.visited2.push( it.src2 );
+  }
+
+}
+
+//
+
+function iteratorVisitEnd()
+{
+  let it = this;
+
+  _.Looker.Iterator.visitEnd.apply( it, arguments );
+
+  // debugger;
+
+  if( it.iterator.trackingVisits )
+  {
+    // _.assert( Object.is( it.visited[ it.visited.length-1 ], it.src ), () => 'Top-most visit does not match ' + it.path );
+    // it.visited.pop();
+    _.assert( Object.is( it.visited2[ it.visited2.length-1 ], it.src2 ), 'Top-most visit does not match ' + it.path );
+    it.visited2.pop();
+  }
+
+}
+
+// --
+// declare looker
+// --
+
+let Looker = _.mapExtend( null, _.Looker );
+Looker.Looker = Looker;
+
+let Iterator = Looker.Iterator = _.mapExtend( null, Looker.Iterator );
+Iterator.select = iteratorSelect;
+Iterator.visitBegin = iteratorVisitBegin;
+Iterator.visitEnd = iteratorVisitEnd;
+Iterator.visited2 = null;
+
+let Iteration = Looker.Iteration = _.mapExtend( null, Looker.Iteration );
+Iteration.result = true;
+Iteration.src2 = null;
+// Iteration.root2 = null;
+
+let IterationPreserve = Looker.IterationPreserve = _.mapExtend( null, Looker.IterationPreserve );
+IterationPreserve.src2 = null;
+
+// --
 // declare
 // --
 
@@ -672,17 +760,17 @@ let Proto =
 
   // entity investigator
 
-  __entityEqualUp : __entityEqualUp,
-  __entityEqualDown : __entityEqualDown,
-  __entityEqualCycle : __entityEqualCycle,
+  __entityEqualUp,
+  __entityEqualDown,
+  __entityEqualCycle,
 
-  _entityEqual : _entityEqual,
+  _entityEqual,
 
-  entityIdentical : entityIdentical,
-  entityEquivalent : entityEquivalent,
-  entityContains : entityContains,
-  entityDiff : entityDiff,
-  entityDiffExplanation : entityDiffExplanation,
+  entityIdentical,
+  entityEquivalent,
+  entityContains,
+  entityDiff,
+  entityDiffExplanation,
 
 }
 
@@ -692,9 +780,9 @@ _.mapSupplement( Self, Proto );
 // export
 // --
 
-if( typeof module !== 'undefined' )
-if( _global_.WTOOLS_PRIVATE )
-{ /* delete require.cache[ module.id ]; */ }
+// if( typeof module !== 'undefined' )
+// if( _global_.WTOOLS_PRIVATE )
+// { /* delete require.cache[ module.id ]; */ }
 
 if( typeof module !== 'undefined' && module !== null )
 module[ 'exports' ] = Self;

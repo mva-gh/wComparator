@@ -10,7 +10,7 @@ if( typeof module !== 'undefined' )
   _.include( 'wTesting' );
   _.include( 'wStringer' );
 
-  require( '../l4/LookerComparator.s' );
+  require( '../l6/LookerComparator.s' );
 
 }
 
@@ -34,10 +34,8 @@ function entityIdenticalSimple( test )
   var got = _.entityIdentical( undefined, undefined );
   test.identical( got, expected );
 
-  var expected = false;
-  debugger;
+  var expected = false
   var got = _.entityIdentical( null, undefined );
-  debugger;
   test.identical( got, expected );
 
   var expected = false;
@@ -2064,8 +2062,10 @@ function entityIdenticalCycledWithOptions( test )
   function onUp( e, k, it )
   {
     onUpPaths.push( it.path );
-    debugger;
-    return !it.result ? _.dont : it.result;
+    // debugger;
+    // return !it.result ? _.dont : it.result;
+    if( !it.result )
+    it.continue = false;
   }
 
   /* */
@@ -2074,7 +2074,9 @@ function entityIdenticalCycledWithOptions( test )
   function onDown( e, k, it )
   {
     onDownPaths.push( it.path );
-    return !it.result ? _.dont : it.result;
+    // if( !it.result )
+    // it.continue = false;
+    // return !it.result ? _.dont : it.result;
   }
 
   /* */
@@ -3267,7 +3269,7 @@ function entityDiffLoose( test )
 var Self =
 {
 
-  name : 'Tools/base/l4/Comparators',
+  name : 'Tools/base/l6/Comparator',
   silencing : 1,
   enabled : 1,
 
@@ -3278,23 +3280,23 @@ var Self =
   tests :
   {
 
-    entityIdenticalSimple : entityIdenticalSimple,
-    entityContainsSimple : entityContainsSimple,
+    entityIdenticalSimple,
+    entityContainsSimple,
 
-    entityEqualArguments : entityEqualArguments,
-    entityEqualBuffers : entityEqualBuffers,
+    entityEqualArguments,
+    entityEqualBuffers,
 
-    entityIdenticalCycled : entityIdenticalCycled,
-    entityIdenticalCycledWithOptions : entityIdenticalCycledWithOptions,
-    entityEquivalentCycled : entityEquivalentCycled,
-    entityContainsCycled : entityContainsCycled,
+    entityIdenticalCycled,
+    entityIdenticalCycledWithOptions,
+    entityEquivalentCycled,
+    entityContainsCycled,
 
-    _entityEqualLoose : _entityEqualLoose,
-    entityIdenticalLoose : entityIdenticalLoose,
-    entityEquivalentLoose : entityEquivalentLoose,
-    entityContainLoose : entityContainLoose,
+    _entityEqualLoose,
+    entityIdenticalLoose,
+    entityEquivalentLoose,
+    entityContainLoose,
 
-    entityDiffLoose : entityDiffLoose,
+    entityDiffLoose,
 
   }
 
