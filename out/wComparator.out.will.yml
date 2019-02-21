@@ -55,10 +55,10 @@ path:
       - proto/dwtools
       - proto/dwtools/Tools.s
       - proto/dwtools/abase
-      - proto/dwtools/abase/l4
-      - proto/dwtools/abase/l4/LookerComparator.s
-      - proto/dwtools/abase/l4.test
-      - proto/dwtools/abase/l4.test/LookerComparator.test.s
+      - proto/dwtools/abase/l6
+      - proto/dwtools/abase/l6/LookerComparator.s
+      - proto/dwtools/abase/l6.test
+      - proto/dwtools/abase/l6.test/LookerComparator.test.s
       - proto/dwtools/amid
       - proto/dwtools/atop
     criterion:
@@ -149,10 +149,10 @@ reflector:
         dwtools: true
         dwtools/Tools.s: true
         dwtools/abase: true
-        dwtools/abase/l4: true
-        dwtools/abase/l4/LookerComparator.s: true
-        dwtools/abase/l4.test: true
-        dwtools/abase/l4.test/LookerComparator.test.s: true
+        dwtools/abase/l6: true
+        dwtools/abase/l6/LookerComparator.s: true
+        dwtools/abase/l6.test: true
+        dwtools/abase/l6.test/LookerComparator.test.s: true
         dwtools/amid: true
         dwtools/atop: true
       basePath: .
