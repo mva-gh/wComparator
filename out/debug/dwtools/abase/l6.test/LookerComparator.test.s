@@ -1992,7 +1992,6 @@ function entityIdenticalCycled( test )
   var b = { x : 1, y : { x : 1, y : null } }
   b.y.y = b;
   var expected = false;
-  debugger;
   var got = _.entityIdentical( a, b );
   test.identical( got, expected );
 
@@ -2672,6 +2671,215 @@ function entityContainsCycled( test )
 
 //
 
+function entityEqualNonRecursive( test )
+{
+
+  test.case = 'primitive, recursive : 0';
+  var a = 'abc';
+  var b = 'abcd';
+  var expected = false;
+  var got = _.entityEquivalent( a, b, { recursive : 0 } );
+  test.identical( got, expected );
+
+  test.case = 'primitive, recursive : 1';
+  var a = 'abc';
+  var b = 'abcd';
+  var expected = false;
+  var got = _.entityEquivalent( a, b, { recursive : 1 } );
+  test.identical( got, expected );
+
+  test.case = 'map, recursive : 0';
+  var a = { x : 1, y : null, z : 3 }
+  var b = { x : 1, y : null, z : 4 }
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 0 } );
+  test.identical( got, expected );
+
+  test.case = 'map, recursive : 1';
+  var a = { x : 1, y : null, z : 3 }
+  var b = { x : 1, y : null, z : 4 }
+  var expected = false;
+  var got = _.entityEquivalent( a, b, { recursive : 1 } );
+  test.identical( got, expected );
+
+  test.case = 'cycle, recursive : 0';
+  var a = { x : 1, y : null, z : 3 }
+  a.y = a;
+  var b = { x : 1, y : null, z : 4 }
+  b.y = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 0 } );
+  test.identical( got, expected );
+
+  test.case = 'cycle, recursive : 1, false';
+  var a = { x : 1, y : null, z : 3 }
+  a.y = a;
+  var b = { x : 1, y : null, z : 4 }
+  b.y = b;
+  var expected = false;
+  var got = _.entityEquivalent( a, b, { recursive : 1 } );
+  test.identical( got, expected );
+
+  test.case = 'cycle, recursive : 1, true';
+  var a = { x : 1, y : null }
+  a.y = a;
+  var b = { x : 1, y : null }
+  b.y = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 1 } );
+  test.identical( got, expected );
+
+  test.case = 'cycle, recursive : 1, true';
+  var a = { x : 1, y : null, z : [ 3 ] }
+  a.y = a;
+  var b = { x : 1, y : null, z : [ 4 ] }
+  b.y = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 1 } );
+  test.identical( got, expected );
+
+  /* - */
+
+  test.open( 'recursive : 0' )
+
+  var a = { x : 1, y : null }
+  a.x = a;
+  var b = { x : 1, y : null }
+  b.x = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 0 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : { x : 1, y : null } }
+  a.y.y = a;
+  var b = { x : 1, y : null }
+  b.y = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 0 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : null }
+  a.y = a;
+  var b = { x : 1, y : { x : 1, y : null } }
+  b.y.y = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 0 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : { x : 1, y : null } }
+  a.y.y = a;
+  var b = { x : 1, y : null }
+  b.y = b;
+  var expected = true;
+  var got = _.entityIdentical( a, b, { recursive : 0 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : null }
+  a.y = a;
+  var b = { x : 1, y : { x : 1, y : null } }
+  b.y.y = b;
+  var expected = true;
+  var got = _.entityIdentical( a, b, { recursive : 0 } );
+  test.identical( got, expected );
+
+  test.close( 'recursive : 0' )
+
+  /* - */
+
+  test.open( 'recursive : 1' )
+
+  var a = { x : 1, y : null }
+  a.x = a;
+  var b = { x : 1, y : null }
+  b.x = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 1 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : { x : 1, y : null } }
+  a.y.y = a;
+  var b = { x : 1, y : null }
+  b.y = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 1 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : null }
+  a.y = a;
+  var b = { x : 1, y : { x : 1, y : null } }
+  b.y.y = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 1 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : { x : 1, y : null } }
+  a.y.y = a;
+  var b = { x : 1, y : null }
+  b.y = b;
+  var expected = false;
+  var got = _.entityIdentical( a, b, { recursive : 1 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : null }
+  a.y = a;
+  var b = { x : 1, y : { x : 1, y : null } }
+  b.y.y = b;
+  var expected = true;
+  var got = _.entityIdentical( a, b, { recursive : 1 } );
+  test.identical( got, expected );
+
+  test.close( 'recursive : 1' )
+
+  /* - */
+
+  test.open( 'recursive : 2' )
+
+  var a = { x : 1, y : null }
+  a.x = a;
+  var b = { x : 1, y : null }
+  b.x = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 2 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : { x : 1, y : null } }
+  a.y.y = a;
+  var b = { x : 1, y : null }
+  b.y = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 2 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : null }
+  a.y = a;
+  var b = { x : 1, y : { x : 1, y : null } }
+  b.y.y = b;
+  var expected = true;
+  var got = _.entityEquivalent( a, b, { recursive : 2 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : { x : 1, y : null } }
+  a.y.y = a;
+  var b = { x : 1, y : null }
+  b.y = b;
+  var expected = false;
+  var got = _.entityIdentical( a, b, { recursive : 2 } );
+  test.identical( got, expected );
+
+  var a = { x : 1, y : null }
+  a.y = a;
+  var b = { x : 1, y : { x : 1, y : null } }
+  b.y.y = b;
+  var expected = false;
+  var got = _.entityIdentical( a, b, { recursive : 2 } );
+  test.identical( got, expected );
+
+  test.close( 'recursive : 2' )
+
+}
+
+//
+
 function _entityEqualLoose( test )
 {
 
@@ -3290,6 +3498,8 @@ var Self =
     entityIdenticalCycledWithOptions,
     entityEquivalentCycled,
     entityContainsCycled,
+
+    entityEqualNonRecursive,
 
     _entityEqualLoose,
     entityIdenticalLoose,

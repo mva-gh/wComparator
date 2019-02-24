@@ -82,7 +82,7 @@ function __entityEqualUp( e, k, it )
   }
   else if( _.regexpIs( it.src ) )
   {
-    return clearEnd( _.regexpsAreIdentical( it.src, it.src2 ) );
+    return clearEnd( _.regexpIdentical( it.src, it.src2 ) );
   }
   else if( _.dateIs( it.src ) )
   {
@@ -235,7 +235,7 @@ function __entityEqualCycle( e, k, it )
   if( !it.result )
   return;
 
-  debugger;
+  // debugger;
 
   /* if cycled and strict cycling */
   if( it.context.strictCycling )
@@ -254,14 +254,12 @@ function __entityEqualCycle( e, k, it )
   }
   else
   {
-    if( it.levelLimit && it.level < it.levelLimit )
+    if( it.level >= it.recursive )
     {
-      let o2 = _.mapExtend( null, it.context );
-      o2.src1 = it.src2;
-      o2.src2 = it.src;
-      o2.levelLimit = 1;
       debugger;
-      it.result = _._entityEqual.body( o2 );
+      let o2 = _.mapExtend( null, it.context );
+      o2.recursive = 0;
+      it.result = _._entityEqual( it.src2, it.src, o2 );
     }
   }
 
@@ -345,7 +343,7 @@ function _entityEqual_pre( routine, args )
     let o2 = Object.create( null );
     o2.Looker = Looker;
     o2.src = o.src2;
-    o2.levelLimit = o.levelLimit;
+    o2.recursive = o.recursive;
     o2.context = o;
     o2.onUp = _.routinesComposeReturningLast([ __entityEqualUp, o.onUp ]);
     o2.onDown = _.routinesComposeReturningLast([ __entityEqualDown, o.onDown ]);
@@ -378,7 +376,7 @@ _entityEqual_body.defaults =
   strictNumbering : 1,
   strictCycling : 1,
   accuracy : 1e-7,
-  levelLimit : 0,
+  recursive : Infinity,
   onNumbersAreEqual : null,
   onUp : null,
   onDown : null,
