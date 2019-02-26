@@ -3470,6 +3470,49 @@ function entityDiffLoose( test )
   debugger;
 }
 
+//
+
+function entityDiffExplanation( test )
+{
+
+  var expected =
+`at /MultipleExports/in
+- got :
+  { 'temp' : 'temp' }
+- expected :
+  { 'in' : 'in' }
+- difference :
+  { '*
+`
+
+  var srcs =
+  [
+    {
+      MultipleExports :
+      {
+        temp : 'temp'
+      }
+    },
+    {
+      MultipleExports :
+      {
+        in : 'in'
+      }
+    }
+  ]
+
+  var got = _.entityDiffExplanation
+  ({
+    name1 : '- got',
+    name2 : '- expected',
+    srcs : srcs,
+    path : '/MultipleExports/in',
+    accuracy : null,
+  });
+  test.identical( _.strStrip( got ), _.strStrip( expected ) );
+
+}
+
 // --
 // declare
 // --
@@ -3507,6 +3550,7 @@ var Self =
     entityContainLoose,
 
     entityDiffLoose,
+    entityDiffExplanation,
 
   }
 
