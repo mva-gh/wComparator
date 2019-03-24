@@ -634,8 +634,8 @@ function entityDiffExplanation( o )
     o.srcs[ 1 ] = _.mapBut( o.srcs[ 1 ], common );
   }
 
-  o.srcs[ 0 ] = _.toStr( o.srcs[ 0 ], { levels : 2, keyWrapper : '\'' } );
-  o.srcs[ 1 ] = _.toStr( o.srcs[ 1 ], { levels : 2, keyWrapper : '\'' } );
+  o.srcs[ 0 ] = _.toStr( o.srcs[ 0 ], { levels : o.levels, keyWrapper : '\'' } );
+  o.srcs[ 1 ] = _.toStr( o.srcs[ 1 ], { levels : o.levels, keyWrapper : '\'' } );
 
   o.srcs[ 0 ] = _.strIndentation( o.srcs[ 0 ], '  ' );
   o.srcs[ 1 ] = _.strIndentation( o.srcs[ 1 ], '  ' );
@@ -667,6 +667,7 @@ defaults.accuracyName = 'with accuracy';
 defaults.srcs = null;
 defaults.path = null;
 defaults.accuracy = null;
+defaults.levels = 3;
 
 // --
 // looker routines
