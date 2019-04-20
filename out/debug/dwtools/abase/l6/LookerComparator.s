@@ -11,6 +11,12 @@
  * @file l6/LookerComparator.s.
  */
 
+/**
+ *@summary Collection of routines to compare two complex structures.
+  @namespace wTools(module:Comparator)
+  @memberof module:Tools/base/Comparator
+*/
+
 if( typeof module !== 'undefined' )
 {
 
@@ -416,7 +422,7 @@ _entityEqual_body.defaults =
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( o ) is not a Object.
  * @throws {exception} If( o ) is extended by unknown property.
- * @memberof wTools
+ * @memberof module:Tools/base/Comparator.wTools(module:Comparator)
  */
 
 let _entityEqual = _.routineFromPreAndBody( _entityEqual_pre, _entityEqual_body );
@@ -448,7 +454,7 @@ let _entityEqual = _.routineFromPreAndBody( _entityEqual_pre, _entityEqual_body 
  * @function entityIdentical
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( options ) is extended by unknown property.
- * @memberof wTools
+ * @memberof module:Tools/base/Comparator.wTools(module:Comparator)
 */
 
 let entityIdentical = _.routineFromPreAndBody( _entityEqual_pre, _entityEqual_body );
@@ -485,7 +491,7 @@ defaults.strictCycling = 1;
  * @function entityEquivalent
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( options ) is extended by unknown property.
- * @memberof wTools
+ * @memberof module:Tools/base/Comparator.wTools(module:Comparator)
 */
 
 let entityEquivalent = _.routineFromPreAndBody( _entityEqual_pre, _entityEqual_body );
@@ -524,7 +530,7 @@ defaults.strictCycling = 0;
  * @function entityContains
  * @throws {exception} If( arguments.length ) is not equal 2 or 3.
  * @throws {exception} If( opts ) is extended by unknown property.
- * @memberof wTools
+ * @memberof module:Tools/base/Comparator.wTools(module:Comparator)
 */
 
 function entityContains( src1, src2, opts )
@@ -578,7 +584,7 @@ defaults.strictCycling = 1;
   * @throws {exception} If( arguments.length ) is not equal 2 or 3.
   * @throws {exception} If( o ) is not a Object.
   * @throws {exception} If( o ) is extended by unknown property.
-  * @memberof wTools
+  * @memberof module:Tools/base/Comparator.wTools(module:Comparator)
   */
 
 function entityDiff( src1, src2, opts )

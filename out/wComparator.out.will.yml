@@ -6,14 +6,17 @@ about:
     answer questions: are two structures equivalent? are them identical? what is
     the difference between each other? Use the module avoid manually work and
     cherry picking.
-  version: 0.3.33
   enabled: 1
-  interpreters:
-    - nodejs >= 6.0.0
-    - chrome >= 60.0.0
-    - firefox >= 60.0.0
-  keywords:
-    - wTools
+  version: 0.3.33
+  values:
+    enabled: 1
+    name: wComparator
+    interpreters:
+      - nodejs >= 6.0.0
+      - chrome >= 60.0.0
+      - firefox >= 60.0.0
+    keywords:
+      - wTools
 execution:
   scripts:
     test: wtest proto
@@ -69,6 +72,10 @@ path:
       export: 1
       tar: 1
       public: 1
+  original.will.files:
+    path:
+      - .im.will.yml
+      - .ex.will.yml
 submodule: {}
 reflector:
   reflect.proto.:
@@ -77,6 +84,7 @@ reflector:
         'path::proto': 'path::out.*=1'
     criterion:
       debug: 0
+    mandatory: 1
     inherit:
       - predefined.*
   reflect.proto.debug:
@@ -85,6 +93,7 @@ reflector:
         'path::proto': 'path::out.*=1'
     criterion:
       debug: 1
+    mandatory: 1
     inherit:
       - predefined.*
   reflect.submodules:
@@ -93,6 +102,7 @@ reflector:
         'submodule::*/exported::*=1/path::exportedDir*=1': 'path::out.*=1'
     criterion:
       debug: 1
+    mandatory: 1
     inherit:
       - predefined.*
   exported.proto.export:
@@ -108,8 +118,8 @@ reflector:
       export: 1
       tar: 1
       public: 1
+    mandatory: 1
   exportedFiles.proto.export:
-    recursive: 0
     src:
       filePath: 'path::exportedFiles.proto.export'
       basePath: .
@@ -122,6 +132,8 @@ reflector:
       export: 1
       tar: 1
       public: 1
+    recursive: 0
+    mandatory: 1
 step:
   clean.out.:
     criterion:
@@ -262,3 +274,4 @@ exported:
     exportedFilesReflector: 'reflector::exportedFiles.proto.export'
     exportedDirPath: 'path::exportedDir.proto.export'
     exportedFilesPath: 'path::exportedFiles.proto.export'
+    originalWillFilesPath: 'path::original.will.files'
